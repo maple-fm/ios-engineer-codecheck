@@ -36,16 +36,15 @@ class DetailViewController: UIViewController {
     
     func getImage(){
         
-        let repo = searchVC.repository[searchVC.index]
+        let repository = searchVC.repository[searchVC.index]
+        TitleLabel.text = repository["full_name"] as? String
         
-        TitleLabel.text = repo["full_name"] as? String
-        
-        if let owner = repo["owner"] as? [String: Any] {
-            if let imgURL = owner["avatar_url"] as? String {
-                URLSession.shared.dataTask(with: URL(string: imgURL)!) { (data, res, err) in
-                    let img = UIImage(data: data!)!
+        if let owner = repository["owner"] as? [String: Any] {
+            if let imageURL = owner["avatar_url"] as? String {
+                URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, res, err) in
+                    let image = UIImage(data: data!)!
                     DispatchQueue.main.async {
-                        self.ImageLabel.image = img
+                        self.ImageLabel.image = image
                     }
                 }
                 .resume()
