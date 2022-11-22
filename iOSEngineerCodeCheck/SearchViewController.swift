@@ -16,7 +16,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     var task: URLSessionTask?
     var word: String!
     var url: String!
-    var index: Int!
+    var idx: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,26 +37,27 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         word = searchBar.text!
-        
-        if word.count != 0 {
-            url = "https://api.github.com/search/repositories?q=\(word!)"
-            task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
-                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-                    if let items = obj["items"] as? [[String: Any]] {
-                        self.repository = items
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
+
+        if word.count == 0 {
+            return
+        }
+
+        url = "https://api.github.com/search/repositories?q=\(word!)"
+        task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
+            if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
+                if let items = obj["items"] as? [[String: Any]] {
+                    self.repository = items
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
                     }
                 }
             }
-            // NOTE: resume()を呼ばないとリストが更新されない
-            task?.resume()
         }
+        // NOTE: resume()を呼ばないとリストが更新されない
+        task?.resume()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "Detail" {
             let detail = segue.destination as! DetailViewController
             detail.searchVC = self
@@ -79,7 +80,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
 
     // NOTE: 画面遷移時に呼ばれる
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        index = indexPath.row
+        idx = indexPath.row
         performSegue(withIdentifier: "Detail", sender: self)
     }
     
