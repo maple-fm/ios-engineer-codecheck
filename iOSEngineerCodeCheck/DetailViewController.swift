@@ -51,11 +51,11 @@ class DetailViewController: UIViewController {
             let imageURL = owner["avatar_url"] as? String
         else { return }
 
-        URLSession.shared.dataTask(with: URL(string: imageURL)!) { (data, res, err) in
+        URLSession.shared.dataTask(with: URL(string: imageURL)!) { [weak self] (data, res, err) in
             if let data = data {
                 let image = UIImage(data: data)
                 DispatchQueue.main.async {
-                    self.ImgView?.image = image
+                    self?.ImgView?.image = image
                 }
             }
         }
