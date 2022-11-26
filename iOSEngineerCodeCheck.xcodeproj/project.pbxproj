@@ -106,8 +106,8 @@
 				BFD945E2244DC5E80012785A /* SearchViewController.swift */,
 				BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */,
 				BFD945E4244DC5E80012785A /* Main.storyboard */,
-				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
 				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
+				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
 				BFD945EC244DC5EB0012785A /* Info.plist */,
 			);
 			path = iOSEngineerCodeCheck;
