@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: vars and lifecycle
-class SearchViewController: UITableViewController, UISearchBarDelegate {
+class SearchViewController: UITableViewController {
 
     @IBOutlet weak var SearchBar: UISearchBar!
     
@@ -37,8 +37,8 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     }
 }
 
-// MARK: - actions
-extension SearchViewController {
+// MARK: - UISearchBarDelegate
+extension SearchViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // NOTE: 初期のテキストを消すための処理
