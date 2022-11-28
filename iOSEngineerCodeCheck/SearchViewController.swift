@@ -8,9 +8,10 @@
 
 import UIKit
 
+// MARK: vars and lifecycle
 class SearchViewController: UITableViewController, UISearchBarDelegate {
 
-    @IBOutlet weak var SearchBar: UISearchBar?
+    @IBOutlet weak var SearchBar: UISearchBar!
     
     var repository: [[String: Any]]=[]
     var task: URLSessionTask?
@@ -24,20 +25,34 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             SearchBar.delegate = self
         }
     }
-    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Detail" {
+            guard
+                let detail = segue.destination as? DetailViewController
+            else { return }
+
+            detail.repository = repository[self.idx ?? 0]
+        }
+    }
+}
+
+// MARK: - actions
+extension SearchViewController {
+
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // NOTE: 初期のテキストを消すための処理
         searchBar.text = ""
         return true
     }
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard
             let task = task
         else { return }
         task.cancel()
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         guard
@@ -64,23 +79,17 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
             task.resume()
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Detail" {
-            guard
-                let detail = segue.destination as? DetailViewController
-            else { return }
+}
 
-            detail.searchVC = self
-        }
-    }
-    
+// MARK: - UITableViewController
+extension SearchViewController {
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         repository.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         let cell = UITableViewCell()
         let repository = repository[indexPath.row]
         cell.textLabel?.text = repository["full_name"] as? String ?? ""
@@ -94,5 +103,4 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         idx = indexPath.row
         performSegue(withIdentifier: "Detail", sender: self)
     }
-    
 }
