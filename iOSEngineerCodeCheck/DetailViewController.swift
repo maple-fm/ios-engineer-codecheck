@@ -29,12 +29,11 @@ class DetailViewController: UIViewController {
         WchsLabel.text = "\(repository["wachers_count"] as? Int ?? 0) watchers"
         Frkslabel.text = "\(repository["forks_count"] as? Int ?? 0) forks"
         IsssLabel.text = "\(repository["open_issues_count"] as? Int ?? 0) open issues"
-        getImage()
+        TitleLabel.text = repository["full_name"] as? String
+        loadImage()
     }
     
-    func getImage() {
-
-        TitleLabel.text = repository["full_name"] as? String
+    private func loadImage() {
 
         guard
             let owner = repository["owner"] as? [String: Any]
