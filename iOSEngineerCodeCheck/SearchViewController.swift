@@ -13,9 +13,9 @@ class SearchViewController: UITableViewController {
 
     @IBOutlet weak var SearchBar: UISearchBar!
     
-    var repository: [[String: Any]]=[]
-    var task: URLSessionTask?
-    var idx: Int?
+    private var repository: [[String: Any]]=[]
+    private var task: URLSessionTask?
+    private var idx: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
